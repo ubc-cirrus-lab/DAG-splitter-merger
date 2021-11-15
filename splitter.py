@@ -6,9 +6,8 @@ class Splitter:
     def SuggestSplit(self, splitCandidates, minDesiredServerPoolReduction,
         leftCPUPoolCapacity, leftMemoryPoolCapacity, verbose):
         """
-        Returns a list of 0's and 1's, where 1 denotes splitting recommended and 0 for no splitting
+        Returns a list of 0's (no splitting recommendations) and 1's (splitting recommendations)
         """
-
         r = 1
 
         while (True):
@@ -42,14 +41,14 @@ class Splitter:
 
             status = model.optimize(max_seconds=30)
             if verbose:
-                    print(status)
+                print(status)
 
             # check if no solution was found, each the condition
             if [x[i].x for i in range(len(x))] == [None for i in range(len(x))]:
-                    print("No solution could be found! Easing the minDesiredServerPoolReduction constraint.")
-                    r *= self.difficultyDecentFactor
+                print("No solution could be found! Easing the minDesiredServerPoolReduction constraint.")
+                r *= self.difficultyDecentFactor
             else:
-                    break
+                break
 
         splittingDecisions = [x[i].x for i in range(len(x))]
         return splittingDecisions
