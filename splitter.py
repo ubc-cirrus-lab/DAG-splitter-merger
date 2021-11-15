@@ -1,32 +1,51 @@
-from mip import Model, MAXIMIZE, CBC, BINARY, INTEGER, OptimizationStatus
+from mip import Model, MAXIMIZE, MINIMIZE, CBC, BINARY, OptimizationStatus
 
 class Splitter:
-    def SuggestSplit(self, splitCandidates, desiredServerPoolReduction,
-                leftCPUPoolCapacity, leftMemoryPoolCapacity):
+        difficultyDecentFactor = 0.8
         
-        model = Model(sense=MAXIMIZE, solver_name=CBC)
-        
-        x = [model.add_var(var_type=BINARY) for s in splitCandidates]
-        model.objective = sum( [x[i]*splitCandidates[i].GetTotalResources(resourceType='C') \
-                                + x[i]*splitCandidates[i].GetTotalResources(resourceType='M') \
-                                for i in range(len(x))] )
+        def SuggestSplit(self, splitCandidates, minDesiredServerPoolReduction,
+                leftCPUPoolCapacity, leftMemoryPoolCapacity, verbose):
 
-        # constraints to limit the max splitting, to maintain merged elements for performance
-        model.add_constr( sum( [x[i]*splitCandidates[i].GetTotalResources(resourceType='C') \
-                                for i in range(len(x))] ) <= desiredServerPoolReduction['cores'])
-        model.add_constr( sum( [x[i]*splitCandidates[i].GetTotalResources(resourceType='M') \
-                                for i in range(len(x))] ) <= desiredServerPoolReduction['mem'])
-        # constraints to respect resources available on the CPU Pool
-        model.add_constr( sum( [x[i]*splitCandidates[i].GetTotalResources(resourceType='C', objectType='c') \
-                                for i in range(len(x))] ) <= leftCPUPoolCapacity['cores'])
-        model.add_constr( sum( [x[i]*splitCandidates[i].GetTotalResources(resourceType='M', objectType='c') \
-                                for i in range(len(x))] ) <= leftCPUPoolCapacity['mem'])
-        # constraints to respect resources available on the Memory Pool
-        model.add_constr( sum( [x[i]*splitCandidates[i].GetTotalResources(resourceType='C', objectType='m') \
-                                for i in range(len(x))] ) <= leftMemoryPoolCapacity['cores'])
-        model.add_constr( sum( [x[i]*splitCandidates[i].GetTotalResources(resourceType='M', objectType='m') \
-                                for i in range(len(x))] ) <= leftMemoryPoolCapacity['mem'])
-        
-        status = model.optimize(max_seconds=30)
-        print(status)
-        return [x[i].x for i in range(len(x))]
+                r = 1
+                
+                while (True):
+                        model = Model(sense=MINIMIZE, solver_name=CBC)
+                        
+                        x = [model.add_var(var_type=BINARY) for s in splitCandidates]
+                        model.objective = sum( [x[i]*splitCandidates[i].GetSplitCommBW() \
+                                                for i in range(len(x))] )
+
+                        # constraints to limit the max splitting, to maintain merged elements for performance
+                        model.add_constr( sum( [x[i]*splitCandidates[i].GetTotalResources(resourceType='C') \
+                                                for i in range(len(x))] ) >= r*minDesiredServerPoolReduction['cores'],
+                                                priority=1)
+                        model.add_constr( sum( [x[i]*splitCandidates[i].GetTotalResources(resourceType='M') \
+                                                for i in range(len(x))] ) >= r*minDesiredServerPoolReduction['mem'],
+                                                priority=1)
+                        # constraints to respect resources available on the CPU Pool
+                        model.add_constr( sum( [x[i]*splitCandidates[i].GetTotalResources(resourceType='C', objectType='c') \
+                                                for i in range(len(x))] ) <= leftCPUPoolCapacity['cores'],
+                                                priority=2)
+                        model.add_constr( sum( [x[i]*splitCandidates[i].GetTotalResources(resourceType='M', objectType='c') \
+                                                for i in range(len(x))] ) <= leftCPUPoolCapacity['mem'],
+                                                priority=2)
+                        # constraints to respect resources available on the Memory Pool
+                        model.add_constr( sum( [x[i]*splitCandidates[i].GetTotalResources(resourceType='C', objectType='m') \
+                                                for i in range(len(x))] ) <= leftMemoryPoolCapacity['cores'],
+                                                priority=2)
+                        model.add_constr( sum( [x[i]*splitCandidates[i].GetTotalResources(resourceType='M', objectType='m') \
+                                                for i in range(len(x))] ) <= leftMemoryPoolCapacity['mem'],
+                                                priority=2)
+                        
+                        status = model.optimize(max_seconds=30)
+                        if verbose:
+                                print(status)
+
+                        # check if no solution was found, each the condition
+                        if [x[i].x for i in range(len(x))] == [None for i in range(len(x))]:
+                                print("No solution could be found! Easing the minDesiredServerPoolReduction constraint.")
+                                r *= self.difficultyDecentFactor
+                        else:
+                                break
+                
+                return [x[i].x for i in range(len(x))]
