@@ -30,3 +30,4 @@ jobs:
       run: |
         python tests/ElementTests.py
         python tests/SplittingTests.py
+        python tests/MergingTests.py
