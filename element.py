@@ -9,7 +9,7 @@ class Element:
         self.coreUsageMetric = coreUsageMetric.copy()
         self.memUsageMetric = memUsageMetric.copy()
         self.communicationMetric = communicationMetric.copy()
-    
+
     def GetTotalResources(self, resourceType, objectType=None):
         if (objectType is None):
             if (resourceType=='C'):
@@ -21,7 +21,7 @@ class Element:
                 return sum( [self.coreUsageMetric[i] for i in range(len(self.types)) if self.types[i]==objectType ] )
             elif (resourceType=='M'):
                 return sum( [self.memUsageMetric[i] for i in range(len(self.types)) if self.types[i]==objectType ] )
-    
+
     def GetSplitCommBW(self):
         splitCommBW = sum( [sum(x) for x in self.communicationMetric] )
         # remove communication bandwidth of each object to itself

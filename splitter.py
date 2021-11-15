@@ -5,6 +5,9 @@ class Splitter:
 
     def SuggestSplit(self, splitCandidates, minDesiredServerPoolReduction,
         leftCPUPoolCapacity, leftMemoryPoolCapacity, verbose):
+        """
+        Returns a list of 0's and 1's, where 1 denotes splitting recommended and 0 for no splitting
+        """
 
         r = 1
 
@@ -48,4 +51,5 @@ class Splitter:
             else:
                     break
 
-        return [x[i].x for i in range(len(x))]
+        splittingDecisions = [x[i].x for i in range(len(x))]
+        return splittingDecisions
