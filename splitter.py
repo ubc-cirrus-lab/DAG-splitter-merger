@@ -1,4 +1,4 @@
-from mip import Model, MAXIMIZE, MINIMIZE, CBC, BINARY, OptimizationStatus
+from mip import Model, MINIMIZE, CBC, BINARY
 
 class Splitter:
         difficultyDecentFactor = 0.8
