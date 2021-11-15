@@ -71,7 +71,7 @@ class TestMerging(unittest.TestCase):
                                                     maxServerPoolAllowanceForMerging={'cores': 80, 'mem':20480},
                                                     serverSize={'cores': 40, 'mem':10240},
                                                     verbose=False)
-        # while e1 can be merged, mergin objects of e2
+        # while e1 can be merged, merging objects of e2
         # would exceed the provided server size's cores (21>20)
         # thus e2 should not be merged
         self.assertEqual(mergingDecisions, [1, 0])

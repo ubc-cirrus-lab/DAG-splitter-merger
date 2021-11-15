@@ -42,7 +42,7 @@ class TestSplitting(unittest.TestCase):
                                                         leftMemoryPoolCapacity={'cores': 50, 'mem':40960},
                                                         verbose=False)
         # to free up 1 core and 0 memory, splitting e3 is enough and
-        # would have the smallest object-to-obejct communication bandwidth
+        # would have the smallest object-to-object communication bandwidth
         self.assertEqual(splittingDecisions, [0, 0, 1])
 
     def test_TwoSplittingsNeeded(self):
