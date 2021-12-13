@@ -159,5 +159,20 @@ class TestSplitting(unittest.TestCase):
         # will run out of cores even with the smallest split
         self.assertEqual(splittingDecisions, [0, 0, 0])
 
+    def test_XSUM(self):
+        e1 = Element(types=['c','m'],
+            coreUsageMetric=[1, 0], memUsageMetric= [0, 140523],
+            communicationMetric=[[0, 17179], [17179, 0]])
+        e2 = Element(types=['c','m'],
+            coreUsageMetric=[1, 0], memUsageMetric= [0, 140416],
+            communicationMetric=[[0, 53687], [53687, 0]])
+        splittingDecisions = self.splitter.SuggestSplit(splitCandidates=[e1, e2],
+                                                        minDesiredServerPoolReduction={'cores': 1, 'mem': 53687},
+                                                        leftCPUPoolCapacity={'cores': 88, 'mem': 0},
+                                                        leftMemoryPoolCapacity={'cores': 12, 'mem': 950104},
+                                                        verbose=False)
+        # 
+        self.assertEqual(splittingDecisions, [1, 0])
+
 if __name__ == '__main__':
     unittest.main()

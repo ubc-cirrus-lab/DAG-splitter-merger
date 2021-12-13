@@ -1,4 +1,4 @@
-from mip import Model, MAXIMIZE, CBC, BINARY
+from mip import *
 
 class Merger:
     def SuggestMerge(self, mergeCandidates, maxServerPoolAllowanceForMerging, serverSize, verbose):
@@ -8,14 +8,14 @@ class Merger:
         model = Model(sense=MAXIMIZE, solver_name=CBC)
 
         x = [model.add_var(var_type=BINARY) for s in mergeCandidates]
-        model.objective = sum( [x[i]*mergeCandidates[i].GetSplitCommBW() \
+        model.objective = xsum( [x[i]*mergeCandidates[i].GetSplitCommBW() \
                                 for i in range(len(x))] )
 
         # constraints to respect Server Pool resources (maxServerPoolAllowanceForMerging)
-        model.add_constr( sum( [x[i]*mergeCandidates[i].GetTotalResources(resourceType='C') \
+        model.add_constr( xsum( [x[i]*mergeCandidates[i].GetTotalResources(resourceType='C') \
                                 for i in range(len(x))] ) <= maxServerPoolAllowanceForMerging['cores'],
                                 priority=1)
-        model.add_constr( sum( [x[i]*mergeCandidates[i].GetTotalResources(resourceType='M') \
+        model.add_constr( xsum( [x[i]*mergeCandidates[i].GetTotalResources(resourceType='M') \
                                 for i in range(len(x))] ) <= maxServerPoolAllowanceForMerging['mem'],
                                 priority=1)
         # constraints to respect each server size
