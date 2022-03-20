@@ -3,7 +3,7 @@ from mip import *
 
 class Merger:
     def SuggestMerge(
-        self, mergeCandidates, maxServerPoolAllowanceForMerging, serverSize, verbose
+        self, mergeCandidates, maxServerPoolAllowanceForMerging, serverSize
     ):
         """
         Returns a list of 0's (no merging recommendations) and 1's (merging recommendations)
@@ -49,10 +49,7 @@ class Merger:
                 priority=1,
             )
 
-        status = model.optimize(max_seconds=30)
-
-        if verbose:
-            print(status)
+        model.optimize(max_seconds=30)
 
         mergingDecisions = [x[i].x for i in range(len(x))]
         return mergingDecisions

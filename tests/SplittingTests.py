@@ -33,8 +33,7 @@ class TestSplitting(unittest.TestCase):
             splitCandidates=[e1, e2, e3],
             minDesiredServerPoolReduction={"cores": 0, "mem": 0},
             leftCPUPoolCapacity={"cores": 100, "mem": 10240},
-            leftMemoryPoolCapacity={"cores": 50, "mem": 40960},
-            verbose=False,
+            leftMemoryPoolCapacity={"cores": 50, "mem": 40960}
         )
         # no demand expressed in minDesiredServerPoolReduction => no splitting needed
         self.assertEqual(splittingDecisions, [0, 0, 0])
@@ -62,8 +61,7 @@ class TestSplitting(unittest.TestCase):
             splitCandidates=[e1, e2, e3],
             minDesiredServerPoolReduction={"cores": 1, "mem": 10},
             leftCPUPoolCapacity={"cores": 100, "mem": 10240},
-            leftMemoryPoolCapacity={"cores": 50, "mem": 40960},
-            verbose=False,
+            leftMemoryPoolCapacity={"cores": 50, "mem": 40960}
         )
         # to free up 1 core and 0 memory, splitting e3 is enough and
         # would have the smallest object-to-object communication bandwidth
@@ -92,8 +90,7 @@ class TestSplitting(unittest.TestCase):
             splitCandidates=[e1, e2, e3],
             minDesiredServerPoolReduction={"cores": 1.2, "mem": 1024},
             leftCPUPoolCapacity={"cores": 100, "mem": 10240},
-            leftMemoryPoolCapacity={"cores": 50, "mem": 40960},
-            verbose=False,
+            leftMemoryPoolCapacity={"cores": 50, "mem": 40960}
         )
         # splitting e1 and e2 would reduce 2.5 cores and 1107 MB of memory
         # meeting the demand from minDesiredServerPoolReduction
@@ -122,8 +119,7 @@ class TestSplitting(unittest.TestCase):
             splitCandidates=[e1, e2, e3],
             minDesiredServerPoolReduction={"cores": 20, "mem": 50},
             leftCPUPoolCapacity={"cores": 100, "mem": 10240},
-            leftMemoryPoolCapacity={"cores": 50, "mem": 40960},
-            verbose=False,
+            leftMemoryPoolCapacity={"cores": 50, "mem": 40960}
         )
         # all splitting should happen despite it falling short of
         # minDesiredServerPoolReduction demanded
@@ -152,8 +148,7 @@ class TestSplitting(unittest.TestCase):
             splitCandidates=[e1, e2, e3],
             minDesiredServerPoolReduction={"cores": 20, "mem": 1024},
             leftCPUPoolCapacity={"cores": 100, "mem": 20},
-            leftMemoryPoolCapacity={"cores": 50, "mem": 40960},
-            verbose=False,
+            leftMemoryPoolCapacity={"cores": 50, "mem": 40960}
         )
         # no splitting should be recommended as the CPU pool
         # will run out of memory even with the smallest split
@@ -182,8 +177,7 @@ class TestSplitting(unittest.TestCase):
             splitCandidates=[e1, e2, e3],
             minDesiredServerPoolReduction={"cores": 20, "mem": 1024},
             leftCPUPoolCapacity={"cores": 0.1, "mem": 10240},
-            leftMemoryPoolCapacity={"cores": 50, "mem": 40960},
-            verbose=False,
+            leftMemoryPoolCapacity={"cores": 50, "mem": 40960}
         )
         # no splitting should be recommended as the CPU pool
         # will run out of cores even with the smallest split
@@ -212,8 +206,7 @@ class TestSplitting(unittest.TestCase):
             splitCandidates=[e1, e2, e3],
             minDesiredServerPoolReduction={"cores": 20, "mem": 1024},
             leftCPUPoolCapacity={"cores": 100, "mem": 10240},
-            leftMemoryPoolCapacity={"cores": 50, "mem": 20},
-            verbose=False,
+            leftMemoryPoolCapacity={"cores": 50, "mem": 20}
         )
         # no splitting should be recommended as the Memory pool
         # will run out of memory even with the smallest split
@@ -242,8 +235,7 @@ class TestSplitting(unittest.TestCase):
             splitCandidates=[e1, e2, e3],
             minDesiredServerPoolReduction={"cores": 20, "mem": 1024},
             leftCPUPoolCapacity={"cores": 100, "mem": 10240},
-            leftMemoryPoolCapacity={"cores": 0.1, "mem": 40960},
-            verbose=False,
+            leftMemoryPoolCapacity={"cores": 0.1, "mem": 40960}
         )
         # no splitting should be recommended as the Memory pool
         # will run out of cores even with the smallest split
@@ -266,8 +258,7 @@ class TestSplitting(unittest.TestCase):
             splitCandidates=[e1, e2],
             minDesiredServerPoolReduction={"cores": 1, "mem": 53687},
             leftCPUPoolCapacity={"cores": 88, "mem": 0},
-            leftMemoryPoolCapacity={"cores": 12, "mem": 950104},
-            verbose=False,
+            leftMemoryPoolCapacity={"cores": 12, "mem": 950104}
         )
         #
         self.assertEqual(splittingDecisions, [1, 0])

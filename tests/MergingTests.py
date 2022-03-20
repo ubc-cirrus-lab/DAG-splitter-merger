@@ -32,8 +32,7 @@ class TestMerging(unittest.TestCase):
         mergingDecisions = self.merger.SuggestMerge(
             mergeCandidates=[e1, e2, e3],
             maxServerPoolAllowanceForMerging={"cores": 0, "mem": 0},
-            serverSize={"cores": 40, "mem": 10240},
-            verbose=False,
+            serverSize={"cores": 40, "mem": 10240}
         )
         # given no resource allowance for the Server Pool nothing should be merged
         self.assertEqual(mergingDecisions, [0, 0, 0])
@@ -60,8 +59,7 @@ class TestMerging(unittest.TestCase):
         mergingDecisions = self.merger.SuggestMerge(
             mergeCandidates=[e1, e2, e3],
             maxServerPoolAllowanceForMerging={"cores": 1.1, "mem": 64},
-            serverSize={"cores": 40, "mem": 10240},
-            verbose=False,
+            serverSize={"cores": 40, "mem": 10240}
         )
         # as the minimum resources for each element go beyond limits
         # of maxServerPoolAllowanceForMerging, nothing should be merged
@@ -89,8 +87,7 @@ class TestMerging(unittest.TestCase):
         mergingDecisions = self.merger.SuggestMerge(
             mergeCandidates=[e1, e2, e3],
             maxServerPoolAllowanceForMerging={"cores": 80, "mem": 20480},
-            serverSize={"cores": 40, "mem": 10240},
-            verbose=False,
+            serverSize={"cores": 40, "mem": 10240}
         )
         # given the resource limits, everything can be merged
         self.assertEqual(mergingDecisions, [1, 1, 1])
@@ -111,8 +108,7 @@ class TestMerging(unittest.TestCase):
         mergingDecisions = self.merger.SuggestMerge(
             mergeCandidates=[e1, e2],
             maxServerPoolAllowanceForMerging={"cores": 80, "mem": 20480},
-            serverSize={"cores": 40, "mem": 10240},
-            verbose=False,
+            serverSize={"cores": 40, "mem": 10240}
         )
         # while e1 can be merged, merging objects of e2
         # would exceed the provided server size's cores (21>20)

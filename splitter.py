@@ -9,8 +9,7 @@ class Splitter:
         splitCandidates,
         minDesiredServerPoolReduction,
         leftCPUPoolCapacity,
-        leftMemoryPoolCapacity,
-        verbose,
+        leftMemoryPoolCapacity
     ):
         """
         Returns a list of 0's (no splitting recommendations) and 1's (splitting recommendations)
@@ -101,9 +100,7 @@ class Splitter:
                 priority=2,
             )
 
-            status = model.optimize(max_seconds=30)
-            if verbose:
-                print(status)
+            model.optimize(max_seconds=30)
 
             # check if no solution was found, each the condition
             if [x[i].x for i in range(len(x))] == [None for i in range(len(x))]:
