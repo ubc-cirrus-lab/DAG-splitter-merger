@@ -26,6 +26,4 @@ jobs:
         pip install -r ./requirements.txt
     - name: Test with unittest
       run: |
-        python tests/ElementTests.py
-        python tests/SplittingTests.py
-        python tests/MergingTests.py
+        coverage run -m unittest tests/*.py
