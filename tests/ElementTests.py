@@ -11,13 +11,13 @@ class TestElement(unittest.TestCase):
         types=["c", "m"],
         coreUsageMetric=[1, 0.2],
         memUsageMetric=[52, 245],
-        communicationMetric=[[0, 120], [120, 0]],
+        communicationMetric=[[0, 120], [120, 0]]
     )
     e2 = Element(
         types=["c", "m", "c"],
         coreUsageMetric=[1, 0.2, 2],
         memUsageMetric=[52, 245, 48],
-        communicationMetric=[[1000, 120, 540], [120, 1000, 800], [540, 800, 63]],
+        communicationMetric=[[1000, 120, 540], [120, 1000, 800], [540, 800, 63]]
     )
 
     def test_GetTotalResources(self):

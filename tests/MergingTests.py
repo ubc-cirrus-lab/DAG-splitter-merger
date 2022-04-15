@@ -15,19 +15,19 @@ class TestMerging(unittest.TestCase):
             types=["c", "m"],
             coreUsageMetric=[1, 0.2],
             memUsageMetric=[52, 245],
-            communicationMetric=[[0, 120], [120, 0]],
+            communicationMetric=[[0, 120], [120, 0]]
         )
         e2 = Element(
             types=["c", "m"],
             coreUsageMetric=[0.8, 0.5],
             memUsageMetric=[158, 652],
-            communicationMetric=[[0, 840], [840, 0]],
+            communicationMetric=[[0, 840], [840, 0]]
         )
         e3 = Element(
             types=["c", "m"],
             coreUsageMetric=[1, 1],
             memUsageMetric=[26, 39],
-            communicationMetric=[[0, 30], [30, 0]],
+            communicationMetric=[[0, 30], [30, 0]]
         )
         mergingDecisions = self.merger.SuggestMerge(
             mergeCandidates=[e1, e2, e3],
@@ -42,19 +42,19 @@ class TestMerging(unittest.TestCase):
             types=["c", "m"],
             coreUsageMetric=[1, 0.2],
             memUsageMetric=[52, 245],
-            communicationMetric=[[0, 120], [120, 0]],
+            communicationMetric=[[0, 120], [120, 0]]
         )
         e2 = Element(
             types=["c", "m"],
             coreUsageMetric=[0.8, 0.5],
             memUsageMetric=[158, 652],
-            communicationMetric=[[0, 840], [840, 0]],
+            communicationMetric=[[0, 840], [840, 0]]
         )
         e3 = Element(
             types=["c", "m"],
             coreUsageMetric=[1, 1],
             memUsageMetric=[26, 39],
-            communicationMetric=[[0, 30], [30, 0]],
+            communicationMetric=[[0, 30], [30, 0]]
         )
         mergingDecisions = self.merger.SuggestMerge(
             mergeCandidates=[e1, e2, e3],
@@ -70,19 +70,19 @@ class TestMerging(unittest.TestCase):
             types=["c", "m"],
             coreUsageMetric=[1, 0.2],
             memUsageMetric=[52, 245],
-            communicationMetric=[[0, 120], [120, 0]],
+            communicationMetric=[[0, 120], [120, 0]]
         )
         e2 = Element(
             types=["c", "m"],
             coreUsageMetric=[0.8, 0.5],
             memUsageMetric=[158, 652],
-            communicationMetric=[[0, 840], [840, 0]],
+            communicationMetric=[[0, 840], [840, 0]]
         )
         e3 = Element(
             types=["c", "m"],
             coreUsageMetric=[1, 1],
             memUsageMetric=[26, 39],
-            communicationMetric=[[0, 30], [30, 0]],
+            communicationMetric=[[0, 30], [30, 0]]
         )
         mergingDecisions = self.merger.SuggestMerge(
             mergeCandidates=[e1, e2, e3],
@@ -97,13 +97,13 @@ class TestMerging(unittest.TestCase):
             types=["c", "m"],
             coreUsageMetric=[1, 0.2],
             memUsageMetric=[52, 245],
-            communicationMetric=[[0, 120], [120, 0]],
+            communicationMetric=[[0, 120], [120, 0]]
         )
         e2 = Element(
             types=["c", "c", "m"],
             coreUsageMetric=[20, 20, 1],
             memUsageMetric=[200, 200, 480],
-            communicationMetric=[[0, 0, 0], [0, 0, 0], [0, 0, 0]],
+            communicationMetric=[[0, 0, 0], [0, 0, 0], [0, 0, 0]]
         )
         mergingDecisions = self.merger.SuggestMerge(
             mergeCandidates=[e1, e2],
