@@ -1,4 +1,4 @@
-from mip import *
+from mip import BINARY, CBC, MINIMIZE, Model, xsum
 
 
 class Splitter:
