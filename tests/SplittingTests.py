@@ -10,6 +10,16 @@ from splitter import Splitter
 class TestSplitting(unittest.TestCase):
     splitter = Splitter()
 
+    def test_NoElementProvided(self):
+        splittingDecisions = self.splitter.SuggestSplit(
+            splitCandidates=[],
+            minDesiredServerPoolReduction={"cores": 1, "mem": 10},
+            leftCPUPoolCapacity={"cores": 100, "mem": 10240},
+            leftMemoryPoolCapacity={"cores": 50, "mem": 40960}
+        )
+        # the SuggestSplit function should still work even if no candidates are provided
+        self.assertEqual(splittingDecisions, [])
+
     def test_NoSplittingNeeded(self):
         e1 = Element(
             types=["c", "m"],

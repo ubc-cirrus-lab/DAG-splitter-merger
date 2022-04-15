@@ -10,6 +10,15 @@ from merger import Merger
 class TestMerging(unittest.TestCase):
     merger = Merger()
 
+    def test_NoElementProvided(self):
+        mergingDecisions = self.merger.SuggestMerge(
+            mergeCandidates=[],
+            maxServerPoolAllowanceForMerging={"cores": 80, "mem": 20480},
+            serverSize={"cores": 40, "mem": 10240}
+        )
+        # the SuggestMerge function should still work even if no candidates are provided
+        self.assertEqual(mergingDecisions, [])
+
     def test_NoMergingPossible1(self):
         e1 = Element(
             types=["c", "m"],

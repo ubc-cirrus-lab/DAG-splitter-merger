@@ -14,6 +14,9 @@ class Splitter:
         """
         Returns a list of 0's (no splitting recommendations) and 1's (splitting recommendations)
         """
+        if (len(splitCandidates)==0):
+            return []   # no optimization needed
+
         r = 1
 
         while True:
