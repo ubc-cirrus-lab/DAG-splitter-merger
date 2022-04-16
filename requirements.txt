@@ -1,4 +1,3 @@
-logging
 mip
 numpy
 pytest
