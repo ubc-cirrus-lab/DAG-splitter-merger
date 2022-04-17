@@ -20,6 +20,15 @@ class TestElement(unittest.TestCase):
         communicationMetric=[[1000, 120, 540], [120, 1000, 800], [540, 800, 63]]
     )
 
+    def test_InvalidElement1(self):
+        self.assertRaises(ValueError, Element, ["c"], [1, 0.2], [52, 245], [[0, 120], [120, 0]])
+
+    def test_InvalidElement2(self):
+        self.assertRaises(ValueError, Element, ["c", "m"], [1, 0.2], [52, 245], [[0, 120], [120]])
+    
+    def test_InvalidElement3(self):
+        self.assertRaises(ValueError, Element, ["g"], [1], [52], [[0]])
+
     def test_GetTotalResources(self):
         core = self.e1.GetTotalResources(resourceType="C")
         mem = self.e1.GetTotalResources(resourceType="M")
