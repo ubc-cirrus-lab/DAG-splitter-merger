@@ -3,14 +3,14 @@ import unittest
 
 sys.path.insert(0, ".")
 sys.path.insert(0, "..")
-from element import Element
+from candidate import Candidate
 from splitter import Splitter
 
 
 class TestSplitting(unittest.TestCase):
     splitter = Splitter()
 
-    def test_NoElementProvided(self):
+    def test_NoCandidateProvided(self):
         splittingDecisions = self.splitter.SuggestSplit(
             splitCandidates=[],
             minDesiredServerPoolReduction={"cores": 1, "mem": 10},
@@ -21,19 +21,19 @@ class TestSplitting(unittest.TestCase):
         self.assertEqual(splittingDecisions, [])
 
     def test_NoSplittingNeeded(self):
-        e1 = Element(
+        e1 = Candidate(
             types=["c", "m"],
             coreUsageMetric=[1, 0.2],
             memUsageMetric=[52, 245],
             communicationMetric=[[0, 120], [120, 0]]
         )
-        e2 = Element(
+        e2 = Candidate(
             types=["c", "m"],
             coreUsageMetric=[0.8, 0.5],
             memUsageMetric=[158, 652],
             communicationMetric=[[0, 840], [840, 0]]
         )
-        e3 = Element(
+        e3 = Candidate(
             types=["c", "m"],
             coreUsageMetric=[1, 1],
             memUsageMetric=[26, 39],
@@ -49,19 +49,19 @@ class TestSplitting(unittest.TestCase):
         self.assertEqual(splittingDecisions, [0, 0, 0])
 
     def test_OneSplittingNeeded(self):
-        e1 = Element(
+        e1 = Candidate(
             types=["c", "m"],
             coreUsageMetric=[1, 0.2],
             memUsageMetric=[52, 245],
             communicationMetric=[[0, 120], [120, 0]]
         )
-        e2 = Element(
+        e2 = Candidate(
             types=["c", "m"],
             coreUsageMetric=[0.8, 0.5],
             memUsageMetric=[158, 652],
             communicationMetric=[[0, 840], [840, 0]]
         )
-        e3 = Element(
+        e3 = Candidate(
             types=["c", "m"],
             coreUsageMetric=[1, 1],
             memUsageMetric=[26, 39],
@@ -78,19 +78,19 @@ class TestSplitting(unittest.TestCase):
         self.assertEqual(splittingDecisions, [0, 0, 1])
 
     def test_TwoSplittingsNeeded(self):
-        e1 = Element(
+        e1 = Candidate(
             types=["c", "m"],
             coreUsageMetric=[1, 0.2],
             memUsageMetric=[52, 245],
             communicationMetric=[[0, 120], [120, 0]]
         )
-        e2 = Element(
+        e2 = Candidate(
             types=["c", "m"],
             coreUsageMetric=[0.8, 0.5],
             memUsageMetric=[158, 652],
             communicationMetric=[[0, 840], [840, 0]]
         )
-        e3 = Element(
+        e3 = Candidate(
             types=["c", "m"],
             coreUsageMetric=[1, 1],
             memUsageMetric=[26, 39],
@@ -107,19 +107,19 @@ class TestSplitting(unittest.TestCase):
         self.assertEqual(splittingDecisions, [1, 1, 0])
 
     def test_AllSplittingsNeededDespiteNotEnough(self):
-        e1 = Element(
+        e1 = Candidate(
             types=["c", "m"],
             coreUsageMetric=[1, 0.2],
             memUsageMetric=[52, 245],
             communicationMetric=[[0, 120], [120, 0]]
         )
-        e2 = Element(
+        e2 = Candidate(
             types=["c", "m"],
             coreUsageMetric=[0.8, 0.5],
             memUsageMetric=[158, 652],
             communicationMetric=[[0, 840], [840, 0]]
         )
-        e3 = Element(
+        e3 = Candidate(
             types=["c", "m"],
             coreUsageMetric=[1, 1],
             memUsageMetric=[26, 39],
@@ -136,19 +136,19 @@ class TestSplitting(unittest.TestCase):
         self.assertEqual(splittingDecisions, [1, 1, 1])
 
     def test_TooLittleMemoryLeftInCPUPool(self):
-        e1 = Element(
+        e1 = Candidate(
             types=["c", "m"],
             coreUsageMetric=[1, 0.2],
             memUsageMetric=[52, 245],
             communicationMetric=[[0, 120], [120, 0]]
         )
-        e2 = Element(
+        e2 = Candidate(
             types=["c", "m"],
             coreUsageMetric=[0.8, 0.5],
             memUsageMetric=[158, 652],
             communicationMetric=[[0, 840], [840, 0]]
         )
-        e3 = Element(
+        e3 = Candidate(
             types=["c", "m"],
             coreUsageMetric=[1, 1],
             memUsageMetric=[26, 39],
@@ -165,19 +165,19 @@ class TestSplitting(unittest.TestCase):
         self.assertEqual(splittingDecisions, [0, 0, 0])
 
     def test_TooFewCoresLeftInCPUPool(self):
-        e1 = Element(
+        e1 = Candidate(
             types=["c", "m"],
             coreUsageMetric=[1, 0.2],
             memUsageMetric=[52, 245],
             communicationMetric=[[0, 120], [120, 0]]
         )
-        e2 = Element(
+        e2 = Candidate(
             types=["c", "m"],
             coreUsageMetric=[0.8, 0.5],
             memUsageMetric=[158, 652],
             communicationMetric=[[0, 840], [840, 0]]
         )
-        e3 = Element(
+        e3 = Candidate(
             types=["c", "m"],
             coreUsageMetric=[1, 1],
             memUsageMetric=[26, 39],
@@ -194,19 +194,19 @@ class TestSplitting(unittest.TestCase):
         self.assertEqual(splittingDecisions, [0, 0, 0])
 
     def test_TooLittleMemoryLeftInMemoryPool(self):
-        e1 = Element(
+        e1 = Candidate(
             types=["c", "m"],
             coreUsageMetric=[1, 0.2],
             memUsageMetric=[52, 245],
             communicationMetric=[[0, 120], [120, 0]]
         )
-        e2 = Element(
+        e2 = Candidate(
             types=["c", "m"],
             coreUsageMetric=[0.8, 0.5],
             memUsageMetric=[158, 652],
             communicationMetric=[[0, 840], [840, 0]]
         )
-        e3 = Element(
+        e3 = Candidate(
             types=["c", "m"],
             coreUsageMetric=[1, 1],
             memUsageMetric=[26, 39],
@@ -223,19 +223,19 @@ class TestSplitting(unittest.TestCase):
         self.assertEqual(splittingDecisions, [0, 0, 0])
 
     def test_TooFewCoresLeftInMemoryPool(self):
-        e1 = Element(
+        e1 = Candidate(
             types=["c", "m"],
             coreUsageMetric=[1, 0.2],
             memUsageMetric=[52, 245],
             communicationMetric=[[0, 120], [120, 0]]
         )
-        e2 = Element(
+        e2 = Candidate(
             types=["c", "m"],
             coreUsageMetric=[0.8, 0.5],
             memUsageMetric=[158, 652],
             communicationMetric=[[0, 840], [840, 0]]
         )
-        e3 = Element(
+        e3 = Candidate(
             types=["c", "m"],
             coreUsageMetric=[1, 1],
             memUsageMetric=[26, 39],
@@ -252,13 +252,13 @@ class TestSplitting(unittest.TestCase):
         self.assertEqual(splittingDecisions, [0, 0, 0])
 
     def test_XSUM(self):
-        e1 = Element(
+        e1 = Candidate(
             types=["c", "m"],
             coreUsageMetric=[1, 0],
             memUsageMetric=[0, 140523],
             communicationMetric=[[0, 17179], [17179, 0]]
         )
-        e2 = Element(
+        e2 = Candidate(
             types=["c", "m"],
             coreUsageMetric=[1, 0],
             memUsageMetric=[0, 140416],

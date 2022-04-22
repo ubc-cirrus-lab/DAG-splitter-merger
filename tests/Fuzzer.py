@@ -5,21 +5,21 @@ import sys
 
 sys.path.insert(0, ".")
 sys.path.insert(0, "..")
-from element import Element
+from candidate import Candidate
 from merger import Merger
 from splitter import Splitter
 
 
-def CreateRandomElement(
-    maxSize, maxCorePerSubElement, maxMemMBPerSubElement, maxCommunication
+def CreateRandomCandidate(
+    maxSize, maxCorePerSubCandidate, maxMemMBPerSubCandidate, maxCommunication
 ):
     size = random.randint(2, maxSize)
     types = ["c" if x == 0 else "m" for x in list(np.random.randint(0, 2, size))]
     coreUsageMetric = [
-        x / 1000 for x in list(np.random.randint(0, maxCorePerSubElement * 1000, size))
+        x / 1000 for x in list(np.random.randint(0, maxCorePerSubCandidate * 1000, size))
     ]
     memUsageMetric = [
-        x / 1000 for x in list(np.random.randint(0, maxMemMBPerSubElement * 1000, size))
+        x / 1000 for x in list(np.random.randint(0, maxMemMBPerSubCandidate * 1000, size))
     ]
     communicationMetric = [[0 for i in range(size)] for j in range(size)]
     for i in range(size):
@@ -35,7 +35,7 @@ def CreateRandomElement(
         + str(communicationMetric)
     )
     return [
-        Element(
+        Candidate(
             types=types,
             coreUsageMetric=coreUsageMetric,
             memUsageMetric=memUsageMetric,
@@ -45,23 +45,23 @@ def CreateRandomElement(
     ]
 
 
-def RunFuzzer(scenarioCount, minElements, maxElements, mode):
+def RunFuzzer(scenarioCount, minCandidates, maxCandidates, mode):
     merger = Merger()
     splitter = Splitter()
 
     for scenario in range(scenarioCount):
         # logging.debug('Scenario '+str(scenario+1)+'/'+str(scenarioCount))
-        elementCount = random.randint(minElements, maxElements)
+        candidateCount = random.randint(minCandidates, maxCandidates)
         logCombined = ""
-        elements = []
-        for i in range(elementCount):
-            element, log = CreateRandomElement(
+        candidates = []
+        for i in range(candidateCount):
+            candidate, log = CreateRandomCandidate(
                 maxSize=20,
-                maxCorePerSubElement=10,
-                maxMemMBPerSubElement=1024,
+                maxCorePerSubCandidate=10,
+                maxMemMBPerSubCandidate=1024,
                 maxCommunication=1024
             )
-            elements.append(element)
+            candidates.append(candidate)
             logCombined += log + " "
 
         try:
@@ -75,7 +75,7 @@ def RunFuzzer(scenarioCount, minElements, maxElements, mode):
                     "mem": random.randint(5120, 10240)
                 }
                 decisions = merger.SuggestMerge(
-                    mergeCandidates=elements,
+                    mergeCandidates=candidates,
                     maxServerPoolAllowanceForMerging=maxServerPoolAllowanceForMerging,
                     serverSize=serverSize,
                 )
@@ -93,7 +93,7 @@ def RunFuzzer(scenarioCount, minElements, maxElements, mode):
                     "mem": random.randint(0, 102400)
                 }
                 decisions = splitter.SuggestSplit(
-                    splitCandidates=elements,
+                    splitCandidates=candidates,
                     minDesiredServerPoolReduction=minDesiredServerPoolReduction,
                     leftCPUPoolCapacity=leftCPUPoolCapacity,
                     leftMemoryPoolCapacity=leftMemoryPoolCapacity
@@ -102,8 +102,8 @@ def RunFuzzer(scenarioCount, minElements, maxElements, mode):
             logging.debug(
                 "Offending scenario: " + str(scenario + 1) + "/" + str(scenarioCount)
             )
-            logging.debug("Element count: " + str(elementCount))
-            logging.debug("Element details: " + logCombined)
+            logging.debug("Candidate count: " + str(candidateCount))
+            logging.debug("Candidate details: " + logCombined)
             if mode == "merge":
                 logging.debug(
                     "maxServerPoolAllowanceForMerging,serverSize: "
@@ -131,5 +131,5 @@ if __name__ == "__main__":
         format="%(asctime)s %(message)s",
         filemode="w"
     )
-    RunFuzzer(scenarioCount=1000000, minElements=1, maxElements=50, mode="merge")
-    RunFuzzer(scenarioCount=1000000, minElements=1, maxElements=50, mode="split")
+    # RunFuzzer(scenarioCount=1000000, minCandidates=1, maxCandidates=50, mode="merge")
+    RunFuzzer(scenarioCount=100, minCandidates=1, maxCandidates=50, mode="split")

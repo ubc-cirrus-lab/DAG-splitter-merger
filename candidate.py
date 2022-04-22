@@ -1,4 +1,4 @@
-class Element:
+class Candidate:
     types = None
     coreUsageMetric = None
     memUsageMetric = None
@@ -11,7 +11,7 @@ class Element:
             )
             == False
         ):
-            raise ValueError("Ivalid element metrics!")
+            raise ValueError("Ivalid candidate metrics!")
         self.types = types.copy()
         self.coreUsageMetric = coreUsageMetric.copy()
         self.memUsageMetric = memUsageMetric.copy()

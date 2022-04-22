@@ -3,31 +3,31 @@ import unittest
 
 sys.path.insert(0, ".")
 sys.path.insert(0, "..")
-from element import Element
+from candidate import Candidate
 
 
-class TestElement(unittest.TestCase):
-    e1 = Element(
+class TestCandidate(unittest.TestCase):
+    e1 = Candidate(
         types=["c", "m"],
         coreUsageMetric=[1, 0.2],
         memUsageMetric=[52, 245],
         communicationMetric=[[0, 120], [120, 0]]
     )
-    e2 = Element(
+    e2 = Candidate(
         types=["c", "m", "c"],
         coreUsageMetric=[1, 0.2, 2],
         memUsageMetric=[52, 245, 48],
         communicationMetric=[[1000, 120, 540], [120, 1000, 800], [540, 800, 63]]
     )
 
-    def test_InvalidElement1(self):
-        self.assertRaises(ValueError, Element, ["c"], [1, 0.2], [52, 245], [[0, 120], [120, 0]])
+    def test_InvalidCandidate1(self):
+        self.assertRaises(ValueError, Candidate, ["c"], [1, 0.2], [52, 245], [[0, 120], [120, 0]])
 
-    def test_InvalidElement2(self):
-        self.assertRaises(ValueError, Element, ["c", "m"], [1, 0.2], [52, 245], [[0, 120], [120]])
+    def test_InvalidCandidate2(self):
+        self.assertRaises(ValueError, Candidate, ["c", "m"], [1, 0.2], [52, 245], [[0, 120], [120]])
     
-    def test_InvalidElement3(self):
-        self.assertRaises(ValueError, Element, ["g"], [1], [52], [[0]])
+    def test_InvalidCandidate3(self):
+        self.assertRaises(ValueError, Candidate, ["g"], [1], [52], [[0]])
 
     def test_GetTotalResources(self):
         core = self.e1.GetTotalResources(resourceType="C")
